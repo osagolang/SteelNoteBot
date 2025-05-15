@@ -1,8 +1,8 @@
 -- +migrate Up
 CREATE TABLE exercises (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    muscle_group TEXT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    muscle_group VARCHAR(255) NOT NULL,
     has_weight BOOLEAN NOT NULL
 );
 
