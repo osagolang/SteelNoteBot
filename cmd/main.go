@@ -25,10 +25,12 @@ func main() {
 	// Инициализация слоёв
 	userRepo := repositories.NewUserRepo(dbPool)
 	exerciseRepo := repositories.NewExerciseRepo(dbPool)
+	recordRepo := repositories.NewRecordRepo(dbPool)
 
-	userSVC := &services.UserService{Repo: userRepo}
-	exerciseSVC := &services.ExerciseService{Repo: exerciseRepo}
+	userSVC := services.NewUserService(userRepo)
+	exerciseSVC := services.NewExerciseService(exerciseRepo)
+	recordSVC := services.NewRecordService(recordRepo)
 
 	// Запуск бота
-	telegram.StartBot(userSVC, exerciseSVC)
+	telegram.StartBot(userSVC, exerciseSVC, recordSVC)
 }

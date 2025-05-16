@@ -9,10 +9,11 @@ type Handler struct {
 	bot         *tgbotapi.BotAPI
 	userSVC     *services.UserService
 	exerciseSVC *services.ExerciseService
+	recordSVC   *services.RecordService
 }
 
-func NewHandler(bot *tgbotapi.BotAPI, userSVC *services.UserService, exerciseSVC *services.ExerciseService) *Handler {
-	return &Handler{bot: bot, userSVC: userSVC, exerciseSVC: exerciseSVC}
+func NewHandler(bot *tgbotapi.BotAPI, userSVC *services.UserService, exerciseSVC *services.ExerciseService, recordSVC *services.RecordService) *Handler {
+	return &Handler{bot: bot, userSVC: userSVC, exerciseSVC: exerciseSVC, recordSVC: recordSVC}
 }
 
 func (h *Handler) HandleUpdate(update tgbotapi.Update) {
