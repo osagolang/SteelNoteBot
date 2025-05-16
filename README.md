@@ -39,7 +39,16 @@ BOT_TOKEN=<твой-токен-бота-от-BotFather>
 ```bash
 go mod tidy
 ```
-4. Запусти бота:
+4. Запусти БД:
+```bash
+docker-compose up -d
+```
+5. Запусти миграции:
+```bash
+go install github.com/rubenv/sql-migrate/...@latest
+sql-migrate up
+```
+6. Запусти бота:
 ```bash
 go run main.go
 ```
