@@ -24,8 +24,11 @@ func main() {
 
 	// Инициализация слоёв
 	userRepo := repositories.NewUserRepo(dbPool)
+	exerciseRepo := repositories.NewExerciseRepo(dbPool)
+
 	userSVC := &services.UserService{Repo: userRepo}
+	exerciseSVC := &services.ExerciseService{Repo: exerciseRepo}
 
 	// Запуск бота
-	telegram.StartBot(userSVC)
+	telegram.StartBot(userSVC, exerciseSVC)
 }

@@ -6,15 +6,22 @@ import (
 )
 
 type Handler struct {
-	bot     *tgbotapi.BotAPI
-	userSVC *services.UserService
+	bot         *tgbotapi.BotAPI
+	userSVC     *services.UserService
+	exerciseSVC *services.ExerciseService
 }
 
-func NewHandler(bot *tgbotapi.BotAPI, userSVC *services.UserService) *Handler {
-	return &Handler{bot: bot, userSVC: userSVC}
+func NewHandler(bot *tgbotapi.BotAPI, userSVC *services.UserService, exerciseSVC *services.ExerciseService) *Handler {
+	return &Handler{bot: bot, userSVC: userSVC, exerciseSVC: exerciseSVC}
 }
 
 func (h *Handler) HandleUpdate(update tgbotapi.Update) {
+
+	if update.CallbackQuery != nil {
+		h.HandleCallback(update.CallbackQuery)
+		return
+	}
+
 	if update.Message != nil {
 		switch update.Message.Text {
 		case "/start":
