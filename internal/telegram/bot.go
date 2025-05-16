@@ -8,7 +8,7 @@ import (
 )
 
 // StartBot запускает телеграм бота
-func StartBot(userSVC *services.UserService, exerciseSVC *services.ExerciseService) {
+func StartBot(userSVC *services.UserService, exerciseSVC *services.ExerciseService, recordSVC *services.RecordService) {
 
 	bot, err := tgbotapi.NewBotAPI(config.GetToken())
 	if err != nil {
@@ -18,7 +18,7 @@ func StartBot(userSVC *services.UserService, exerciseSVC *services.ExerciseServi
 	bot.Debug = false
 	log.Printf("Авторизован как %s", bot.Self.UserName)
 
-	handler := NewHandler(bot, userSVC, exerciseSVC)
+	handler := NewHandler(bot, userSVC, exerciseSVC, recordSVC)
 
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60

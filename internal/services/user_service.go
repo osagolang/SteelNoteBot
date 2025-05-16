@@ -13,6 +13,10 @@ type UserService struct {
 	Repo UserRepo
 }
 
+func NewUserService(repo UserRepo) *UserService {
+	return &UserService{Repo: repo}
+}
+
 func (s *UserService) RegisterUser(ctx context.Context, user *models.User) error {
 	return s.Repo.CreateUser(ctx, user)
 }
