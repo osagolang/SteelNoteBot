@@ -1,7 +1,7 @@
 -- +migrate Up
 CREATE TABLE records (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(id),
+    user_id INTEGER NOT NULL REFERENCES users(telegram_id),
     exercise_id INTEGER NOT NULL REFERENCES exercises(id),
     weight NUMERIC,
     reps INTEGER NOT NULL,

@@ -44,7 +44,7 @@ func (r *RecordRepo) GetRecords(ctx context.Context, userID int64, exerciseID in
 func (r *RecordRepo) SaveRecord(ctx context.Context, rec models.Record) error {
 	_, err := r.db.Exec(ctx, `
 		INSERT INTO records(user_id, exercise_id, weight, reps, created_at)
-		VALUES ($1, $2, $3, $4)
+		VALUES ($1, $2, $3, $4, $5)
 		`, rec.UserID, rec.ExerciseID, rec.Weight, rec.Reps, rec.CreatedAt)
 
 	return err
