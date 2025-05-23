@@ -4,4 +4,5 @@ type Exercise struct {
 	ID          int
 	Name        string
 	MuscleGroup string
+	HasWeight   bool
 }

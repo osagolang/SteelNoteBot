@@ -45,7 +45,7 @@ func (h *Handler) HandleTrainingMessage(msg *tgbotapi.Message) error {
 		return nil
 	}
 
-	err := h.recordSVC.AddRecord(context.Background(), chatID, exerciseID, weight, reps)
+	err := h.recordSVC.AddRecord(context.Background(), chatID, exerciseID, &weight, reps)
 	if err != nil {
 		log.Printf("Ошибка при сохранении тренировки: %v", err)
 		h.HandleSendMessage(chatID, "Ошибка сохранения тренировки", nil)

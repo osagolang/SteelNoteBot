@@ -8,10 +8,15 @@ func (h *Handler) HandleTraining(chatID int64) {
 		tgbotapi.NewInlineKeyboardRow(
 			tgbotapi.NewInlineKeyboardButtonData("Ноги", "legs"),
 			tgbotapi.NewInlineKeyboardButtonData("Спина", "back"),
+			tgbotapi.NewInlineKeyboardButtonData("Грудные", "chest"),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Грудные", "chest"),
-			tgbotapi.NewInlineKeyboardButtonData("Мелкие", "small"),
+			tgbotapi.NewInlineKeyboardButtonData("Плечи", "shoulders"),
+			tgbotapi.NewInlineKeyboardButtonData("Бицепс", "biceps"),
+			tgbotapi.NewInlineKeyboardButtonData("Трицепс", "triceps"),
+		),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("Икры", "chest"),
 		),
 	)
 

@@ -8,9 +8,9 @@ import (
 type DB = *pgxpool.Pool
 
 type Record struct {
-	UserID     int64
+	TelegramID int64
 	ExerciseID int
-	Weight     float64
+	Weight     *float64
 	Reps       int
 	CreatedAt  time.Time
 }
