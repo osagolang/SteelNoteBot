@@ -2,6 +2,7 @@ package telegram
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -14,10 +15,14 @@ func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) error {
 
 	h.HandleDeleteMessage(chatID, messageID)
 
+	muscleGroups := []string{"legs", "back", "chest", "shoulders", "biceps", "triceps", "calves"}
+
 	switch {
 	case data == "training":
 		h.HandleTraining(chatID)
-	case data == "legs" || data == "back" || data == "chest" || data == "small":
+	case data == "records":
+		h.HandleShowRecords(chatID)
+	case slices.Contains(muscleGroups, data):
 		h.HandleExercise(chatID, data)
 	case strings.HasPrefix(data, "exercise_"):
 		idString := strings.TrimPrefix(data, "exercise_")
