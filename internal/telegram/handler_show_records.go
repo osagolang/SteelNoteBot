@@ -26,11 +26,12 @@ func (h *Handler) HandleShowRecords(chatID int64) {
 			return
 		}
 
-		if rec == nil {
-			msg += fmt.Sprintf("%s: нет данных\n", ex.Name)
-		} else {
-			msg += fmt.Sprintf("%s: %.1f кг × %d раз\n", ex.Name, *rec.Weight, rec.Reps)
+		m := fmt.Sprintf("%s: нет данных\n", ex.Name)
+		if rec != nil {
+			m = rec.FormatMsg()
 		}
+
+		msg += m
 	}
 
 	h.HandleSendMessage(chatID, msg, nil)

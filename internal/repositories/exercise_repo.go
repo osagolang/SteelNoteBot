@@ -34,3 +34,16 @@ func (r *ExerciseRepo) GetExerciseByGroup(ctx context.Context, muscleGroup strin
 	}
 	return exercises, nil
 }
+
+func (r *ExerciseRepo) GetExerciseByID(ctx context.Context, exerciseID int) (*models.Exercise, error) {
+
+	var ex models.Exercise
+	err := r.db.QueryRow(ctx,
+		`SELECT id, name, muscle_group, has_weight
+		FROM exercises WHERE id = $1`, exerciseID).Scan(&ex.ID, &ex.Name, &ex.MuscleGroup, &ex.HasWeight)
+
+	if err != nil {
+		return nil, err
+	}
+	return &ex, nil
+}

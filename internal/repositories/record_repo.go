@@ -19,8 +19,9 @@ func NewRecordRepo(db *pgxpool.Pool) *RecordRepo {
 func (r *RecordRepo) GetRecords(ctx context.Context, telegramID int64, exerciseID int, limit int) ([]models.Record, error) {
 
 	rows, err := r.db.Query(ctx, `
-		SELECT telegram_id, exercise_id, weight, reps, created_at
+		SELECT telegram_id, exercise_id, weight, reps, created_at, e.name, e.muscle_group, e.has_weight
 		FROM records
+		INNER JOIN exercises e ON e.id = records.exercise_id
 		WHERE telegram_id = $1 AND exercise_id = $2
 		ORDER BY created_at DESC
 		LIMIT $3`, telegramID, exerciseID, limit)
@@ -33,9 +34,11 @@ func (r *RecordRepo) GetRecords(ctx context.Context, telegramID int64, exerciseI
 	var records []models.Record
 	for rows.Next() {
 		var rec models.Record
-		if err := rows.Scan(&rec.TelegramID, &rec.ExerciseID, &rec.Weight, &rec.Reps, &rec.CreatedAt); err != nil {
+		var ex models.Exercise
+		if err := rows.Scan(&rec.TelegramID, &ex.ID, &rec.Weight, &rec.Reps, &rec.CreatedAt, &ex.Name, &ex.MuscleGroup, &ex.HasWeight); err != nil {
 			return nil, err
 		}
+		rec.Exercise = ex
 
 		records = append(records, rec)
 	}
@@ -47,7 +50,7 @@ func (r *RecordRepo) SaveRecord(ctx context.Context, rec models.Record) error {
 	_, err := r.db.Exec(ctx, `
 		INSERT INTO records(telegram_id, exercise_id, weight, reps, created_at)
 		VALUES ($1, $2, $3, $4, $5)
-		`, rec.TelegramID, rec.ExerciseID, rec.Weight, rec.Reps, rec.CreatedAt)
+		`, rec.TelegramID, rec.Exercise.ID, rec.Weight, rec.Reps, rec.CreatedAt)
 
 	return err
 }
@@ -55,15 +58,17 @@ func (r *RecordRepo) SaveRecord(ctx context.Context, rec models.Record) error {
 func (r *RecordRepo) GetBestRecords(ctx context.Context, telegramID int64, exerciseID int) (*models.Record, error) {
 
 	var rec models.Record
+	var ex models.Exercise
 
 	err := r.db.QueryRow(ctx, `
-		SELECT weight, reps, created_at
+		SELECT weight, reps, created_at, e.id, e.name, e.muscle_group, e.has_weight
 		FROM records
+		INNER JOIN exercises e ON e.id = records.exercise_id
 		WHERE telegram_id = $1 AND exercise_id = $2
 		ORDER BY weight DESC, created_at DESC
 		LIMIT 1`,
 		telegramID, exerciseID,
-	).Scan(&rec.Weight, &rec.Reps, &rec.CreatedAt)
+	).Scan(&rec.Weight, &rec.Reps, &rec.CreatedAt, &ex.ID, &ex.Name, &ex.MuscleGroup, &ex.HasWeight)
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -71,5 +76,7 @@ func (r *RecordRepo) GetBestRecords(ctx context.Context, telegramID int64, exerc
 		}
 		return nil, err
 	}
+	rec.Exercise = ex
+
 	return &rec, nil
 }

@@ -7,6 +7,7 @@ import (
 
 type ExerciseRepo interface {
 	GetExerciseByGroup(ctx context.Context, muscleGroup string) ([]models.Exercise, error)
+	GetExerciseByID(ctx context.Context, exerciseID int) (*models.Exercise, error)
 }
 
 type ExerciseService struct {
@@ -19,4 +20,8 @@ func NewExerciseService(repo ExerciseRepo) *ExerciseService {
 
 func (s *ExerciseService) GetExerciseByGroup(ctx context.Context, muscleGroup string) ([]models.Exercise, error) {
 	return s.Repo.GetExerciseByGroup(ctx, muscleGroup)
+}
+
+func (s *ExerciseService) GetExerciseByID(ctx context.Context, exerciseID int) (*models.Exercise, error) {
+	return s.Repo.GetExerciseByID(ctx, exerciseID)
 }
