@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) error {
+func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) {
 
 	chatID := cb.Message.Chat.ID
 	messageID := cb.Message.MessageID
@@ -23,18 +23,18 @@ func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) error {
 	case data == "records":
 		h.HandleShowRecords(chatID)
 	case slices.Contains(muscleGroups, data):
-		h.HandleExercise(chatID, data)
+		h.HandleExerciseByGroup(chatID, data)
 	case strings.HasPrefix(data, "exercise_"):
 		idString := strings.TrimPrefix(data, "exercise_")
 		idExercise, err := strconv.Atoi(idString)
 		if err != nil {
 			h.HandleSendMessage(chatID, "Ошибка получения ID упражнения", nil)
-			return nil
+			return
 		}
 		h.HandleExerciseSelected(chatID, idExercise)
 	default:
 		h.HandleSendMessage(chatID, "Неизвестная команда", nil)
 	}
 
-	return nil
+	return
 }

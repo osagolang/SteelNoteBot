@@ -27,7 +27,7 @@ func (s *RecordService) GetRecords(ctx context.Context, telegramID int64, exerci
 func (s *RecordService) AddRecord(ctx context.Context, telegramID int64, exerciseID int, weight *float64, reps int) error {
 	rec := models.Record{
 		TelegramID: telegramID,
-		ExerciseID: exerciseID,
+		Exercise:   models.Exercise{ID: exerciseID},
 		Weight:     weight,
 		Reps:       reps,
 		CreatedAt:  time.Now(),

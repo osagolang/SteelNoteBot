@@ -2,7 +2,7 @@ package telegram
 
 import "context"
 
-func (h *Handler) HandleExercise(chatID int64, muscleGroup string) {
+func (h *Handler) HandleExerciseByGroup(chatID int64, muscleGroup string) {
 
 	exercise, err := h.exerciseSVC.GetExerciseByGroup(context.Background(), muscleGroup)
 	if err != nil {
