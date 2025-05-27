@@ -35,11 +35,15 @@ func (h *Handler) HandleExerciseSelected(chatID int64, exerciseID int) {
 		return
 	}
 
-	if exercise.HasWeight {
-		msg += "\n---\nВведи данные текущей тренировки\nв формате: вес повторения\n(например: 90 10)"
-	} else {
-		msg += "\n---\nВведи данные текущей тренировки\nв формате: количество повторений\n(например: 15)"
-	}
+	msg += exercise.FormatMsgHasWeight()
+	/*
+		if exercise.HasWeight {
+			msg += "\n---\nВведи данные текущей тренировки\nв формате: вес повторения\n(например: 90 10)"
+		} else {
+			msg += "\n---\nВведи данные текущей тренировки\nв формате: количество повторений\n(например: 15)"
+		}
+
+	*/
 
 	h.tempInput[chatID] = exerciseID
 
@@ -60,6 +64,11 @@ func (h *Handler) HandleTrainingMessage(msg *tgbotapi.Message) {
 	exercise, err := h.exerciseSVC.GetExerciseByID(context.Background(), exerciseID)
 	if err != nil {
 		log.Printf("Ошибка получения данных по упражнению: %v", err)
+		return
+	}
+
+	if exercise == nil {
+		log.Printf("Нет упражнений...: %v", err)
 		return
 	}
 
