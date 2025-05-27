@@ -11,8 +11,8 @@ type Exercise struct {
 
 func (e Exercise) FormatMsgHasWeight() string {
 	if e.HasWeight {
-		return fmt.Sprintf("Неверный формат.\nВведи: вес повторения\nНапример: 100 5")
+		return fmt.Sprintf("\n---\nВведи данные текущей тренировки\nв формате: вес повторения\n(например: 90 10)")
 	} else {
-		return fmt.Sprintf("Неверный формат.\nВведи: количество повторений\nНапример: 15")
+		return fmt.Sprintf("\n---\nВведи данные текущей тренировки\nв формате: количество повторений\n(например: 15)")
 	}
 }
