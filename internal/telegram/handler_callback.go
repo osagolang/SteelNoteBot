@@ -15,7 +15,7 @@ func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) {
 
 	h.HandleDeleteMessage(chatID, messageID)
 
-	muscleGroups := []string{"legs", "back", "chest", "shoulders", "biceps", "triceps", "calves"}
+	muscleGroups := []string{"legs", "back", "chest", "shoulders", "biceps", "triceps", "calves", "press"}
 
 	switch {
 	case data == "training":
@@ -32,6 +32,8 @@ func (h *Handler) HandleCallback(cb *tgbotapi.CallbackQuery) {
 			return
 		}
 		h.HandleExerciseSelected(chatID, idExercise)
+	case data == "start":
+		h.HandleStart(cb.Message)
 	default:
 		h.HandleSendMessage(chatID, "Неизвестная команда", nil)
 	}

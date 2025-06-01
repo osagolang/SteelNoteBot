@@ -1,6 +1,27 @@
 package telegram
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
+
+func muscleGroupName(eng string) string {
+	muscleNames := map[string]string{
+		"legs":      "Ноги",
+		"back":      "Спина",
+		"chest":     "Грудные",
+		"shoulders": "Плечи",
+		"biceps":    "Бицепс",
+		"triceps":   "Трицепс",
+		"calves":    "Икры",
+		"press":     "Пресс",
+	}
+
+	if name, ok := muscleNames[eng]; ok {
+		return name
+	}
+	return eng
+}
 
 func (h *Handler) HandleExerciseByGroup(chatID int64, muscleGroup string) {
 
@@ -14,6 +35,9 @@ func (h *Handler) HandleExerciseByGroup(chatID int64, muscleGroup string) {
 	}
 
 	btn := GenerateExerciseButtons(exercise)
+	muscleName := muscleGroupName(muscleGroup)
+	txt := fmt.Sprintf("Выбрана группа мышц: %s\n\nВыбирай упражнение 👇", muscleName)
 
-	h.HandleSendMessage(chatID, "Выбирай упражнение 👇", btn)
+	h.HandleSendMessage(chatID, txt, btn)
+
 }

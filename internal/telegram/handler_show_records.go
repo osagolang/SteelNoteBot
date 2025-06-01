@@ -3,6 +3,7 @@ package telegram
 import (
 	"context"
 	"fmt"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func (h *Handler) HandleShowRecords(chatID int64) {
@@ -12,9 +13,8 @@ func (h *Handler) HandleShowRecords(chatID int64) {
 		Name string
 	}{
 		{5, "Подтягивания"},
-		{11, "Жим штанги лёжа"},
-		{1, "Приседания со штангой"},
 		{10, "Отжимания от пола"},
+		{11, "Жим штанги лёжа"},
 	}
 
 	msg := "🏆 Твои достижения:\n\n"
@@ -34,6 +34,15 @@ func (h *Handler) HandleShowRecords(chatID int64) {
 		msg += m
 	}
 
-	h.HandleSendMessage(chatID, msg, nil)
+	keyboard := tgbotapi.NewInlineKeyboardMarkup(
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("Тренироваться", "training"),
+		),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("Вернуться в главное меню", "start"),
+		),
+	)
+
+	h.HandleSendMessage(chatID, msg, keyboard)
 
 }

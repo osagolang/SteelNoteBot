@@ -11,10 +11,18 @@ type Handler struct {
 	exerciseSVC *services.ExerciseService
 	recordSVC   *services.RecordService
 	tempInput   map[int64]int
+	lastMsgID   map[int64]int
 }
 
 func NewHandler(bot *tgbotapi.BotAPI, userSVC *services.UserService, exerciseSVC *services.ExerciseService, recordSVC *services.RecordService) *Handler {
-	return &Handler{bot: bot, userSVC: userSVC, exerciseSVC: exerciseSVC, recordSVC: recordSVC, tempInput: make(map[int64]int)}
+	return &Handler{
+		bot:         bot,
+		userSVC:     userSVC,
+		exerciseSVC: exerciseSVC,
+		recordSVC:   recordSVC,
+		tempInput:   make(map[int64]int),
+		lastMsgID:   make(map[int64]int),
+	}
 }
 
 func (h *Handler) HandleUpdate(update tgbotapi.Update) {

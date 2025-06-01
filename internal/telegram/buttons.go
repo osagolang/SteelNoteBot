@@ -14,5 +14,8 @@ func GenerateExerciseButtons(exercises []models.Exercise) tgbotapi.InlineKeyboar
 		rows = append(rows, tgbotapi.NewInlineKeyboardRow(button))
 	}
 
+	backButton := tgbotapi.NewInlineKeyboardButtonData("Выбрать другую группу мышц", "training")
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(backButton))
+
 	return tgbotapi.NewInlineKeyboardMarkup(rows...)
 }
