@@ -16,7 +16,11 @@ func (h *Handler) HandleTraining(chatID int64) {
 			tgbotapi.NewInlineKeyboardButtonData("Трицепс", "triceps"),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Икры", "chest"),
+			tgbotapi.NewInlineKeyboardButtonData("Икры", "calves"),
+			tgbotapi.NewInlineKeyboardButtonData("Пресс", "press"),
+		),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("Вернуться в главное меню", "start"),
 		),
 	)
 

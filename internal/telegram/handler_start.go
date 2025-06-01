@@ -8,26 +8,21 @@ import (
 
 func (h *Handler) HandleStart(msg *tgbotapi.Message) {
 
+	chatID := msg.Chat.ID
+	messageID := msg.MessageID
+
+	h.HandleDeleteMessage(chatID, messageID)
+
+	if lastMsgID, ok := h.lastMsgID[chatID]; ok {
+		h.HandleDeleteMessage(chatID, lastMsgID)
+		delete(h.lastMsgID, chatID)
+	}
+
 	user := &models.User{
 		TelegramID: msg.From.ID,
 		Username:   msg.From.UserName,
 	}
 	_ = h.userSVC.RegisterUser(context.Background(), user)
-
-	/*
-
-		btn1 := tgbotapi.NewInlineKeyboardButtonData("Тренировка1", "training")
-		btn2 := tgbotapi.NewInlineKeyboardButtonData("Рекорды1", "records")
-		keyboard := tgbotapi.NewInlineKeyboardMarkup(
-			tgbotapi.NewInlineKeyboardRow(btn1, btn2),
-		)
-
-		msgConfig := tgbotapi.NewMessage(msg.Chat.ID, "Потренируемся или показать твои рекорды? Выбирай 👇")
-		msgConfig.ReplyMarkup = keyboard
-
-		h.bot.Send(msgConfig)
-
-	*/
 
 	keyboard := tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
@@ -36,6 +31,6 @@ func (h *Handler) HandleStart(msg *tgbotapi.Message) {
 		),
 	)
 
-	h.HandleSendMessage(msg.Chat.ID, "Потренируемся или показать твои рекорды? Выбирай 👇", keyboard)
-
+	mmm := h.HandleSendMessage(chatID, "Потренируемся или показать твои рекорды?\n\nВыбирай ниже 👇", keyboard)
+	h.lastMsgID[chatID] = mmm
 }
