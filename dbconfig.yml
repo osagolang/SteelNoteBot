@@ -1,5 +1,5 @@
 development:
   dialect: postgres
-  datasource: postgres://steel:note@localhost:5432/steelnotedb?sslmode=disable
+  datasource: postgres://steel:note@localhost:5433/steelnotedb?sslmode=disable
   dir: migrations
   table: migrations
